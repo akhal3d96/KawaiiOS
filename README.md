@@ -10,4 +10,6 @@ KwaiiOS is a hobby A 32-bit operating system for educational purposes meant to b
 ### Compiling
 `$ make`
 ### Running
-`$ make && qemu-system-i386 -machine q35 -fda disk.img`
+`$ qemu-system-i386 -machine q35 -fda disk.img`
+## Note
+The code of KawaiiOS is far from ready there's a lot of things that should be fixed and changed and the work is still in progress.
