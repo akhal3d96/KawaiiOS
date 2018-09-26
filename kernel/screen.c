@@ -56,7 +56,36 @@ void cls()
    uint16_t cursor_y = 0;
    move_cursor(cursor_x,cursor_y);
 } 
+static void scroll()
+{
+//    uint8_t *cursor_y = &y;
 
+   uint16_t *vidmem = (uint16_t *)  VIDEO_ADDRESS;
+   // Get a space character with the default colour attributes.
+   uint8_t attributeByte = (0 /*black*/ << 4) | (15 /*white*/ & 0x0F);
+   uint16_t blank = 0x20 /* space */ | (attributeByte << 8);
+
+   // Row 25 is the end, this means we need to scroll up
+   if(y >= 25)
+   {
+       // Move the current text chunk that makes up the screen
+       // back in the buffer by a line
+       int i;
+       for (i = 0*80; i < 24*80; i++)
+       {
+           vidmem[i] = vidmem[i+80];
+       }
+
+       // The last line should now be blank. Do this by writing
+       // 80 spaces to it.
+       for (i = 23*80; i < 25*80; i++)
+       {
+           vidmem[i] = blank;
+       }
+       // The cursor should now be on the last line.
+       y = 24;
+   }
+} 
 void print_char(char c, uint16_t cursor_x , uint16_t cursor_y, uint8_t color)
 {    
 
@@ -133,7 +162,7 @@ void print_char(char c, uint16_t cursor_x , uint16_t cursor_y, uint8_t color)
    }
 
 //    // Scroll the screen if needed.
-//    //scroll();
+   scroll();
 //    // Move the hardware cursor.
    
    move_cursor(cursor_x,cursor_y);

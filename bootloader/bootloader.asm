@@ -29,7 +29,7 @@ LoadKernel:
     mov SI, KernelStatus    ; Print a message  to say we are  loading  the  kernel
     call  PrintString
     mov bx, KERNEL_OFFSET      ; Set -up  parameters  for  our  disk_load  routine , so
-    mov dh, 15                   ; that we load  the  first  15  sectors (excluding
+    mov dh, 20                  ; that we load  the  first  15  sectors (excluding
     mov dl, [BOOT_DRIVE]       ; the  boot  sector) from  the  boot  disk (i.e.  our
     call  disk_load               ;   kernel  code) to  address  KERNEL_OFFSET
 
