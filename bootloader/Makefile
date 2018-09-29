@@ -1,6 +1,7 @@
-all: bootloader
+all: bootloader.bin
 
-bootloader:
-	nasm -f bin bootloader.asm -o bootloader
-	dd if=/dev/zero of=../disk.img bs=512 count=2880
-	dd conv=notrunc if=bootloader of=../disk.img bs=512 count=1 seek=0
+bootloader.bin: bootloader.asm
+	nasm -f bin $^ -o $@
+
+clean:
+	rm *.bin
