@@ -1,3 +1,7 @@
+; I don't know how to start this shit, yo, now
+;
+;        - Nas - N.Y State of Mind
+
 bits 16     ; real-mode works in 16 bit
 
 org 0x7c00  ; the code should located at this address because it's what the 
