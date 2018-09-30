@@ -2,7 +2,8 @@
 ## What is KawaiiOS?
 KwaiiOS is a hobby A 32-bit operating system for educational purposes meant to be UNIX-like but with its own kernel. It's tested on an emulation of Intel Q35 chipset.
 
-![KwaiiOS screenshot](https://github.com/adam-p/markdown-here/raw/master/screenshots/screenshot1.png "KwaiiOS screenshot")
+<img align="center" width="100" height="100" src="https://raw.githubusercontent.com/nemoload/KawaiiOS/master/screenshots/screenshot1.png">
+
 ## Memory map
 * ### Physical memory
     | 0x00000 	| 0x07C00  	| BIOS                   	|
@@ -11,6 +12,7 @@ KwaiiOS is a hobby A 32-bit operating system for educational purposes meant to b
     | 0x07E00 	| 0x10000  	| UNUSED                 	|
     | 0x10000 	| 0x23CB8  	| Kernel                 	|
     | 0x23CB8 	| 0x100000 	| UNUSED + system reserved 	|
+
 ## How to compile annd run it?
 ### Requirments:
 1. A running GNU/Linux environment
