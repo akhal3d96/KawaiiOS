@@ -4,9 +4,9 @@
 //          Rewritten for JamesM's kernel development tutorials.
 //
 
-#include "common.h"
-#include "isr.h"
-#include "screen.h"
+#include <common.h>
+#include <isr.h>
+#include <screen.h>
 
 isr_t interrupt_handlers[256];
 
@@ -18,10 +18,6 @@ void register_interrupt_handler(u8int n, isr_t handler)
 // This gets called from our ASM interrupt handler stub.
 void isr_handler(registers_t regs)
 {
-    print_string("\nrecieved interrupt: ");
-    print_char((regs.int_no)+48,x,y,0);
-    print_char('\n',x,y,0);
-
     if (interrupt_handlers[regs.int_no] != 0)
     {
         isr_t handler = interrupt_handlers[regs.int_no];

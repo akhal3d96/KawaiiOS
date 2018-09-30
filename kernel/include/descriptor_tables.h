@@ -1,9 +1,5 @@
-// 
-// descriptor_tables.h - Defines the interface for initialising the GDT and IDT.
-//                       Also defines needed structures.
-//                       Based on code from Bran's kernel development tutorials.
-//                       Rewritten for JamesM's kernel development tutorials.
-//
+#ifndef COMMON_H
+#define COMMON_H
 
 #include "common.h"
 
@@ -108,4 +104,4 @@ extern void irq13();
 extern void irq14();
 extern void irq15();
 
-
+#endif

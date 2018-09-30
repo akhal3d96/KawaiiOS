@@ -1,7 +1,7 @@
 #include <stdarg.h>
-#include "screen.h"
-#include "printk.h"
-#include "common.h"
+#include <screen.h>
+#include <printk.h>
+#include <common.h>
 
 #define STRING_SIZE 1024
 #define ASCII_OFFSET 48
@@ -37,7 +37,7 @@ void printk(const char *restrict fmt,...)
         switch(c = *fmt++)
         {
             case 'c':
-                c = va_arg(arg,uint8_t);
+                c = va_arg(arg,int);
                 print_char(c);
                 break;
             case 's':

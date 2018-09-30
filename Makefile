@@ -12,6 +12,4 @@ os-image: bootloader.bin kernel.bin
 	dd conv=notrunc if=kernel/kernel.bin of=disk.img bs=512 count=20 seek=1
 
 clean:
-	rm kernel/*.bin kernel/*.o
-	rm bootloader/bootloader.bin
-	rm disk.img
+	rm **/*.o **/*.bin disk.img
