@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "timer.h": "c",
-        "isr.h": "c",
-        "stdbool.h": "c",
-        "descriptor_tables.h": "c"
-    }
-}
