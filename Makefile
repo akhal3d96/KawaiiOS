@@ -17,6 +17,7 @@ clean:
 	find -name "*.o"   -delete
 	find -name "*.bin" -delete
 	find -name "*.img" -delete
+	find -name "*.*~"  -delete
 
 beautify:
 	find -name "*.c" ${FIND_INDENT_PARAMS}
