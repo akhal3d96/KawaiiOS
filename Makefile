@@ -1,3 +1,5 @@
+FIND_INDENT_PARAMS=-exec indent -linux {} \;
+
 all: os-image
 
 kernel.bin:
@@ -15,3 +17,7 @@ clean:
 	find -name "*.o"   -delete
 	find -name "*.bin" -delete
 	find -name "*.img" -delete
+
+beautify:
+	find -name "*.c" ${FIND_INDENT_PARAMS}
+	find -name "*.h" ${FIND_INDENT_PARAMS}
