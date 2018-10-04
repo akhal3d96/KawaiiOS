@@ -1,4 +1,5 @@
-# KawaiiOS
+# KawaiiOS 
+[![Build Status](https://travis-ci.com/nemoload/KawaiiOS.svg?branch=master)](https://travis-ci.com/nemoload/KawaiiOS)
 ## What is KawaiiOS?
 KwaiiOS is a hobby A 32-bit operating system for educational purposes meant to be UNIX-like but with its own kernel. It's tested on an emulation of Intel Q35 chipset.
 
