@@ -10,13 +10,13 @@
 static char string_buff[STRING_SIZE];
 static int ptr = -1;
 
-static void int_to_string(unsigned int num, int base)
+static void int_to_string(unsigned int num, unsigned int base)
 {
 	unsigned int n = num / base;
 	int r = num % base;
 	if (num >= base)
 		int_to_string(n, base);
-	string_buff[++ptr] = r + ASCII_OFFSET;
+	string_buff[++ptr] = "0123456789ABCDEF"[r];
 }
 
 void printk(const char *__restrict__ fmt, ...)
@@ -27,7 +27,7 @@ void printk(const char *__restrict__ fmt, ...)
 	va_list arg;
 	va_start(arg, fmt);
 
-	while (c = *fmt++) {
+	while ((c = *fmt++)) {
 		if (c != '%') {
 			print_char(c);
 			continue;

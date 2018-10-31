@@ -10,7 +10,7 @@ void keyboard_init()
 	register_interrupt_handler(IRQ1, &keyboard_handler);
 }
 
-void keyboard_handler(registers_t regs)
+void keyboard_handler(/*registers_t regs*/)
 {
 	int com;
 
@@ -23,7 +23,6 @@ void keyboard_handler(registers_t regs)
 	outb(0x61, (com = inb(0x61)) | 0x80);
 	outb(0x61, com & 0x7f);
 	outb(0x20, 0x20);
-
 }
 
 void key_c()
@@ -33,7 +32,7 @@ void key_c()
 	if (scan_code & 0x80) {
 		return;
 	}
-	c = key_map[scan_code & 0x7F][shift_p];
+	c = key_map[scan_code & 0x7F][(int)shift_p];
 	printk("%c", c);
 	/* printk("scan_code: %d  character: %c\n",scan_code & 0x80,c); */
 }

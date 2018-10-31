@@ -1,34 +1,27 @@
-ENTRY(kernel_main)
-
+ENTRY(start)
 SECTIONS
 {
-   . = 0x1000;
-
-  START_ADDRESS = .;
-  CODE_SECTION = .;
-
-  .text :
+  .text 0x100000 :
   {
-    *(.text)
+      code = .; _code = .; __code = .;
+      *(.text)
+      . = ALIGN(4096);
   }
-
-  . = ALIGN(4096);
-  DATA_SECTION = .;
 
   .data :
   {
-     *(.data)
-     *(.rodata)
+      data = .; _data = .; __data = .;
+      *(.data)
+      *(.rodata)
+      . = ALIGN(4096);
   }
-
-   . = ALIGN(4096);
-  BSS_SECTION = .;
 
   .bss :
   {
-    *(.bss)
+      bss = .; _bss = .; __bss = .;
+      *(.bss)
+      . = ALIGN(4096);
   }
 
-  . = ALIGN(4096);
-  END_ADDRESS = . ;
+  end = .; _end = .; __end = .;
 }

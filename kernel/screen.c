@@ -36,6 +36,10 @@ void move_cursor(uint16_t cursor_x, uint16_t cursor_y)
 
 void cls()
 {
+	screen_colorize((uint8_t) BLACK);
+}
+void screen_colorize(uint8_t back_color)
+{
 	/* Make an attribute byte for the default colours */
 	uint8_t attributeByte;
 	uint16_t blank;
@@ -45,8 +49,9 @@ void cls()
 
 	uint16_t i;
 
-	attributeByte = 0x0F;
-	blank = 0x20 | attributeByte << 8;
+	attributeByte =
+	    (back_color << 4) | (15 & WHITE);
+	blank = 0x20 /* space */  | (attributeByte << 8);
 
 	for (i = 0; i < 80 * 25; i++) {
 		vidmem[i] = blank;
@@ -65,7 +70,7 @@ static bool scroll()
 	uint16_t blank;
 
 	attributeByte =
-	    (0 /*black */  << 4) | (15 /*white */  & WHITE_ON_BLACK);
+	    (BLACK << 4) | (15 & WHITE_ON_BLACK);
 	blank = 0x20 /* space */  | (attributeByte << 8);
 
 	/* Row 25 is the end, this means we need to scroll up */
@@ -92,20 +97,16 @@ static bool scroll()
 
 void print_char(char c)
 {
-	print_char_at(c, x, y, 0);
+	print_char_at(c, x, y, (uint8_t) BLACK, (uint8_t) WHITE);
 }
 
-void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y, uint8_t color)
+void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y, 
+					uint8_t back_color, uint8_t fore_color)
 {
-
-	/* The background colour is black (0), the foreground is white (15). */
-	uint8_t backColour = color;
-	uint8_t foreColour = 15;
-
 	/* The attribute byte is made up of two nibbles - the lower being the */
 	/* foreground colour, and the upper the background colour. */
 	uint8_t attributeByte =
-	    (backColour << 4) | (foreColour & WHITE_ON_BLACK);
+	    (back_color << 4) | (fore_color & WHITE);
 
 	/* The attribute byte is the top 8 bits of the word we have to send to the */
 	/* VGA board. */
@@ -115,14 +116,18 @@ void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y, uint8_t color)
 
 	uint16_t location;
 
-	if (cursor_x >= 0 && cursor_y >= 0) {
-		location = cursor_y * 80 + cursor_x;
-	} else {
-		cursor_y = y;
-		cursor_x = x;
-		location = y * 80 + x;
-
-	}
+	/* FIXME */
+	/*
+	   if (cursor_x >= 0 && cursor_y >= 0) {
+	   location = cursor_y * 80 + cursor_x;
+	   } else {
+	 */
+	cursor_y = y;
+	cursor_x = x;
+	location = y * 80 + x;
+	/*
+	   }
+	 */
 
 	/* Handle a backspace, by moving the cursor back one space */
 	if (c == 0x08 && cursor_x) {
@@ -175,7 +180,17 @@ void print_string(char *str)
 {
 	uint16_t i = 0;
 	while (str[i]) {
-		print_char_at(str[i], x, y, 0);
+		print_char_at(str[i], x, y, (uint8_t) BLACK, (uint8_t) WHITE);
 		i++;
 	}
 }
+
+void print_string_blue(char *str)
+{
+	uint16_t i = 0;
+	while (str[i]) {
+		print_char_at(str[i], x, y, (uint8_t) BLUE, (uint8_t) WHITE);
+		i++;
+	}
+}
+

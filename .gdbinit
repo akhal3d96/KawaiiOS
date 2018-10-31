@@ -5,10 +5,8 @@ define hook-stop
     x/i $cs*16+$eip
 
 end
-
+file kernel/kernel.elf
 set disassembly-flavor intel
 set architecture i8086
-layout asm
-layout reg
 set architecture i8086
 target remote localhost:8080

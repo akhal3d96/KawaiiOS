@@ -5,9 +5,12 @@
 #include <drivers/keyboard/ps2.h>
 #include <isr.h>
 #include <screen.h>
+#include <mm/paging.h>
 
 void kernel_main()
 {
+	uint32_t *ptr;
+	uint32_t do_page_fault;
 
 	char kawaii[] = {
 		0x20, 0x5f, 0x20, 0x20, 0x20, 0x5f, 0x5f, 0x20, 0x20, 0x20,
@@ -54,7 +57,7 @@ void kernel_main()
 
 	printk("the educational operating system.\n");
 	printk("By Ahmed Khaled <nemoload@aol.com>\n");
-	printk("Source code is at: https:/*github.com/nemoload/KawaiiOS\n\n");
+	printk("Source code: https://github.com/nemoload/KawaiiOS\n\n");
 
 	init_descriptor_tables();
 
@@ -65,10 +68,17 @@ void kernel_main()
 	keyboard_init();
 	printk("[*] PS/2 driver is ready\n");
 
+	__asm__ volatile("cli");
+	initialise_paging();
 	__asm__ volatile ("sti");
-
+	
 	/* uint16_t freq = 44000; */
 	/* init_timer(freq); */
 	/* uint8_t mask = 4; */
 	/* outb(0x60,0xED|mask); */
+	
+	ptr = (uint32_t*)0x10000002;
+	do_page_fault = *ptr;
+	(void) do_page_fault;
+
 }

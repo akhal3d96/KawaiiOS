@@ -1,7 +1,7 @@
-all: bootloader.bin
+all: bootloader
 
-bootloader.bin: bootloader.asm
-	nasm -f bin $^ -o $@
-
+bootloader: bootloader.asm
+	nasm -f elf32 $^ -o $@.o
+		
 clean:
-	rm *.bin
+	rm *.elf *.o

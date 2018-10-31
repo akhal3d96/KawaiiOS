@@ -3,8 +3,8 @@
 
 #include <isr.h>
 
-static char shift_p = 0;
-static uint8_t scan_code;
+static char shift_p __attribute__((used)) = 0;
+static uint8_t scan_code __attribute__((used));
 
 void shift();
 void unp();
@@ -34,7 +34,7 @@ static const char key_map[0x3a][2] = {
 
 };
 
-static void (*key_way[0x80])() = {
+static void (*key_way[0x80])() __attribute__((used)) = {
 	/*00 */ unp, unp, key_c, key_c, key_c, key_c, key_c, key_c,
 	/*08 */ key_c, key_c, key_c, key_c, key_c, key_c, key_c, key_c,
 	/*10 */ key_c, key_c, key_c, key_c, key_c, key_c, key_c, key_c,
