@@ -71,6 +71,8 @@ void kernel_main()
 	__asm__ volatile("cli");
 	initialise_paging();
 	__asm__ volatile ("sti");
+
+	/*print_debug();*/
 	
 	/* uint16_t freq = 44000; */
 	/* init_timer(freq); */

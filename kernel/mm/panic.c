@@ -1,14 +1,23 @@
 #include <screen.h>
 #include <printk.h>
 #include <isr.h>
+#include <asm.h>
 #include <mm/panic.h>
 
 void PANIC(struct registers * regs)
 {
     uint32_t cr0, cr2, cr3;
+    
+    uint8_t attributeByte;
+    uint16_t character;
+	uint16_t i;
+
+    uint16_t *vidmem = (uint16_t *) VIDEO_ADDRESS;
+
+    
     char *msg = "\nA problem has been detected and your operating system has been shut down to\n\
 prevent damage to your computer.\n\
-If this the first time you've seen this Stop error screen, restart your computer\n\
+If this the first time you've seen this Stop error screen, restart your computer.\n\
 Technical information:";
     
     __asm__ volatile("movl    %%cr0,        %%eax":"=a"(cr0 ));
@@ -43,11 +52,19 @@ Technical information:";
     printk("\n CALL STACK:");
     printk("\n ------------");
     printk("\n EIP: 0x%x", regs->eip);
+
+	attributeByte =
+	    (BLUE << 4) | (15 & WHITE);
+	character = 0x0 | (attributeByte << 8);
+
+	for (i = 0; i < 80 * 25; i++) {
+		vidmem[i] = vidmem[i] | character;
+	}
     /*
     for (i = 0; i < 4; i++) {
         printk(" <-- 0x%x", ((int32_t*)regs->ebp)[1]);
         regs->ebp = ((int32_t*)regs->ebp)[0];
     }*/
     /*screen_back_only_colorize(BLUE);*/
-    __asm__ volatile("hlt");
+    hlt();
 }

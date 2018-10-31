@@ -1,16 +1,11 @@
-;
-; interrupt.s -- Contains interrupt service routine wrappers.
-;                Based on Bran's kernel development tutorials.
-;                Rewritten for JamesM's kernel development tutorials.
-
 ; This macro creates a stub for an ISR which does NOT pass it's own
 ; error code (adds a dummy errcode byte).
 %macro ISR_NOERRCODE 1
   global isr%1
   isr%1:
     cli                         ; Disable interrupts firstly.
-    push byte 0                 ; Push a dummy error code.
-    push byte %1                ; Push the interrupt number.
+    push 0                 ; Push a dummy error code.
+    push %1                ; Push the interrupt number.
     jmp isr_common_stub         ; Go to our common handler code.
 %endmacro
 
@@ -20,7 +15,7 @@
   global isr%1
   isr%1:
     cli                         ; Disable interrupts.
-    push byte %1                ; Push the interrupt number
+    push %1                ; Push the interrupt number
     jmp isr_common_stub
 %endmacro
 
@@ -30,8 +25,8 @@
   global irq%1
   irq%1:
     cli
-    push byte 0
-    push byte %2
+    push 0
+    push %2
     jmp irq_common_stub
 %endmacro
         
@@ -67,6 +62,9 @@ ISR_NOERRCODE 28
 ISR_NOERRCODE 29
 ISR_NOERRCODE 30
 ISR_NOERRCODE 31
+ISR_NOERRCODE 255
+
+
 IRQ   0,    32
 IRQ   1,    33
 IRQ   2,    34
@@ -101,18 +99,21 @@ isr_common_stub:
     mov es, ax
     mov fs, ax
     mov gs, ax
+    mov ss, ax
 
+    push esp
     call isr_handler
+    add esp, 4
 
     pop ebx        ; reload the original data segment descriptor
     mov ds, bx
     mov es, bx
     mov fs, bx
     mov gs, bx
+    mov ss, bx
 
     popa                     ; Pops edi,esi,ebp...
     add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-    sti
     iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
 
 ; In isr.c
@@ -132,18 +133,21 @@ irq_common_stub:
     mov es, ax
     mov fs, ax
     mov gs, ax
+    mov ss, ax
 
+    push esp
     call irq_handler
+    add esp, 4
 
     pop ebx        ; reload the original data segment descriptor
     mov ds, bx
     mov es, bx
     mov fs, bx
     mov gs, bx
+    mov ss, bx
 
     popa                     ; Pops edi,esi,ebp...
     add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-    sti
     iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
 
 

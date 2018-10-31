@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <mm/memory.h>
+#include <asm.h>
 #include <printk.h>
 
 extern uint32_t placement_address;
@@ -54,7 +55,8 @@ static uint32_t first_frame()
 			}
 		}
 	}
-
+	printk("why?!\n");
+	hlt();
     return 0;
 }
 
@@ -69,6 +71,7 @@ void allocate_frame(struct page *p, int is_kernel, int is_writeable)
 		/* There's no free memoey, kernel panic! */
 		if (index == (uint32_t) - 1) {
 			printk("No free memeory\n");
+			hlt();
 
 		} else {
 			set_frame(index * FRAME_SIZE);

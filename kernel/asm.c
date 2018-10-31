@@ -19,3 +19,8 @@ uint16_t inw(uint16_t port)
 	__asm__ volatile ("inw %1, %0":"=a" (ret):"dN"(port));
 	return ret;
 }
+
+void hlt()
+{
+	__asm__ volatile("hlt");
+}

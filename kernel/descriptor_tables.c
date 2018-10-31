@@ -25,7 +25,7 @@ idt_entry_t idt_entries[256];
 idt_ptr_t idt_ptr;
 
 /* Extern the ISR handler array so we can nullify them on startup.*/
-extern isr_t interrupt_handlers[];
+extern isr_t interrupt_handlers[256];
 
 /* Initialisation routine - zeroes all the interrupt service routines,*/
 /* initialises the GDT and IDT.*/
@@ -75,7 +75,7 @@ static void init_idt()
 	idt_ptr.limit = sizeof(idt_entry_t) * 256 - 1;
 	idt_ptr.base = (uint32_t) & idt_entries;
 
-	memset(&idt_entries, 0, sizeof(idt_entry_t) * 256);
+	memset(&idt_entries, 0, sizeof(idt_entry_t) * 255);
 
 	/* Remap the irq table. */
 	outb(0x20, 0x11);
@@ -136,8 +136,9 @@ static void init_idt()
 	idt_set_gate(44, (uint32_t) irq12, 0x08, 0x8E);
 	idt_set_gate(45, (uint32_t) irq13, 0x08, 0x8E);
 	idt_set_gate(46, (uint32_t) irq14, 0x08, 0x8E);
-	idt_set_gate(47, (uint32_t) irq15, 0x08, 0x8E);
-
+	idt_set_gate(47, (uint32_t) irq15, 0x08, 0x8E);	
+	idt_set_gate(255, (uint32_t) isr255, 0x08, 0x8E);
+	
 	idt_flush((uint32_t) & idt_ptr);
 }
 

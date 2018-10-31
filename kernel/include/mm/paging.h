@@ -31,7 +31,4 @@ void switch_page_directory(struct page_directory *new_pd);
 struct page *get_page(uint32_t address, struct page_directory *pd);
 struct page *create_page(uint32_t address, struct page_directory *pd);
 
-
-void page_fault();
-
 #endif

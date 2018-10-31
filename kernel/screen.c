@@ -193,4 +193,3 @@ void print_string_blue(char *str)
 		i++;
 	}
 }
-
