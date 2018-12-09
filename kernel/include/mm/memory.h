@@ -23,6 +23,6 @@ uint32_t nframes;
 * the bootloader.
 */
 #define MEMORY_SIZE 0x1000000
-
+#define KHEAP_START 0xCC0000
 
 #endif

@@ -34,7 +34,7 @@ static const char key_map[0x3a][2] = {
 
 };
 
-static void (*key_way[0x80])() __attribute__((used)) = {
+static void (*key_way[0x80])() __attribute__ ( (used)) = {
 	/*00 */ unp, unp, key_c, key_c, key_c, key_c, key_c, key_c,
 	/*08 */ key_c, key_c, key_c, key_c, key_c, key_c, key_c, key_c,
 	/*10 */ key_c, key_c, key_c, key_c, key_c, key_c, key_c, key_c,

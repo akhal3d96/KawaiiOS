@@ -40,6 +40,7 @@ void print_char(char c);
 void cls();
 void screen_colorize(uint8_t back_color);
 
-void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y, uint8_t back_color, uint8_t fore_color);
+void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y,
+		   uint8_t back_color, uint8_t fore_color);
 
 #endif

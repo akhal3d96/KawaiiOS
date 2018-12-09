@@ -38,6 +38,7 @@ void cls()
 {
 	screen_colorize((uint8_t) BLACK);
 }
+
 void screen_colorize(uint8_t back_color)
 {
 	/* Make an attribute byte for the default colours */
@@ -49,8 +50,7 @@ void screen_colorize(uint8_t back_color)
 
 	uint16_t i;
 
-	attributeByte =
-	    (back_color << 4) | (15 & WHITE);
+	attributeByte = (back_color << 4) | (15 & WHITE);
 	blank = 0x20 /* space */  | (attributeByte << 8);
 
 	for (i = 0; i < 80 * 25; i++) {
@@ -69,8 +69,7 @@ static bool scroll()
 	uint8_t attributeByte;
 	uint16_t blank;
 
-	attributeByte =
-	    (BLACK << 4) | (15 & WHITE_ON_BLACK);
+	attributeByte = (BLACK << 4) | (15 & WHITE_ON_BLACK);
 	blank = 0x20 /* space */  | (attributeByte << 8);
 
 	/* Row 25 is the end, this means we need to scroll up */
@@ -100,13 +99,12 @@ void print_char(char c)
 	print_char_at(c, x, y, (uint8_t) BLACK, (uint8_t) WHITE);
 }
 
-void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y, 
-					uint8_t back_color, uint8_t fore_color)
+void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y,
+		   uint8_t back_color, uint8_t fore_color)
 {
 	/* The attribute byte is made up of two nibbles - the lower being the */
 	/* foreground colour, and the upper the background colour. */
-	uint8_t attributeByte =
-	    (back_color << 4) | (fore_color & WHITE);
+	uint8_t attributeByte = (back_color << 4) | (fore_color & WHITE);
 
 	/* The attribute byte is the top 8 bits of the word we have to send to the */
 	/* VGA board. */

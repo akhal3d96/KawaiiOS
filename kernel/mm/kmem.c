@@ -7,7 +7,7 @@
 #include <printk.h>
 
 extern uint32_t placement_address;
-extern uint32_t * frames;
+extern uint32_t *frames;
 extern uint32_t nframes;
 
 /*
@@ -20,7 +20,8 @@ static void set_frame(uint32_t frame_addr)
 	uint32_t offset = frame & MASK;
 
 	frames[bucket] |= (1 << offset);
-} 
+}
+
 /*
 static void clear_frame(uint32_t frame_addr)
 {
@@ -57,7 +58,7 @@ static uint32_t first_frame()
 	}
 	printk("why?!\n");
 	hlt();
-    return 0;
+	return 0;
 }
 
 void allocate_frame(struct page *p, int is_kernel, int is_writeable)
@@ -84,11 +85,10 @@ void allocate_frame(struct page *p, int is_kernel, int is_writeable)
 	}
 }
 
-uint32_t kmalloc(uint32_t size)
+uint32_t kmalloc_a(uint32_t size)
 {
 	uint32_t tmp = placement_address;
 	placement_address = (placement_address + size + 0x1000) & 0xFFFFF000;
-
 
 	return tmp;
 }

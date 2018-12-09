@@ -52,6 +52,7 @@ void printk(const char *__restrict__ fmt, ...)
 		case 'x':
 			c = va_arg(arg, int32_t);
 			int_to_string(c, 16);
+			print_string("0x");
 			print_string(string_buff);
 			ptr = -1;
 			memset(string_buff, '\0', STRING_SIZE);

@@ -12,7 +12,7 @@
 
 #define INDEX_OF_BUCKET(v) (v >> BITS_WS)
 
-uint32_t kmalloc(uint32_t size);
+uint32_t kmalloc_a(uint32_t size);
 uint32_t kmalloc_ap(uint32_t size, uint32_t * physical);
 
 void allocate_frame(struct page *p, int is_kernel, int is_writeable);

@@ -6,11 +6,18 @@
 #include <isr.h>
 #include <screen.h>
 #include <mm/paging.h>
+#include <mm/kheap.h>
 
 void kernel_main()
 {
+	/* Page Fault */
+	/* 
 	uint32_t *ptr;
 	uint32_t do_page_fault;
+	*/
+
+	/* kmalloc() */
+	uint32_t * a, * b, *c, *d;
 
 	char kawaii[] = {
 		0x20, 0x5f, 0x20, 0x20, 0x20, 0x5f, 0x5f, 0x20, 0x20, 0x20,
@@ -68,19 +75,30 @@ void kernel_main()
 	keyboard_init();
 	printk("[*] PS/2 driver is ready\n");
 
-	__asm__ volatile("cli");
+	__asm__ volatile ("cli");
 	initialise_paging();
 	__asm__ volatile ("sti");
+	printk("[*] Paging Initialized\n");
 
-	/*print_debug();*/
-	
+	/* PIC */
 	/* uint16_t freq = 44000; */
 	/* init_timer(freq); */
 	/* uint8_t mask = 4; */
 	/* outb(0x60,0xED|mask); */
 	
-	ptr = (uint32_t*)0x10000002;
+	/* Page Fault */
+	/*
+	ptr = (uint32_t *) 0x10000002;
 	do_page_fault = *ptr;
-	(void) do_page_fault;
+	(void)do_page_fault;
+	*/
+	a = kmalloc(4);
+	b = kmalloc(4);
+	c = kmalloc(4);
+	d = kmalloc(16);
+
+	printk("\n\nkmalloc() demonstating:\n");
+	printk("kernel heap starts at: %x\n", 0xCC0000);
+	printk("a kmalloc(4): %x\nb kmalloc(4): %x\nc kmalloc(4): %x\nd kmalloc(4): %x",a,b,c,d);
 
 }

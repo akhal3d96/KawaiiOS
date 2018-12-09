@@ -14,9 +14,7 @@ void isr_handler(registers_t * regs)
 {
 	if (interrupt_handlers[regs->int_no]) {
 		interrupt_handlers[regs->int_no] (regs);
-	}
-	else
-	{
+	} else {
 		print_string("Unhandled intruuption");
 	}
 }
@@ -34,7 +32,7 @@ void irq_handler(registers_t * regs)
 	outb(0x20, 0x20);
 
 	if (interrupt_handlers[regs->int_no] != 0) {
-		interrupt_handlers[regs->int_no] (regs);		
+		interrupt_handlers[regs->int_no] (regs);
 	}
 
 }

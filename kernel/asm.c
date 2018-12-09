@@ -20,7 +20,7 @@ uint16_t inw(uint16_t port)
 	return ret;
 }
 
-void hlt()
+__inline__ void hlt()
 {
-	__asm__ volatile("hlt");
+	__asm__ volatile ("cli; hlt");
 }
