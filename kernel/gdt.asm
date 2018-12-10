@@ -1,13 +1,9 @@
-;
-; Gdt.s -- contains global descriptor table and interrupt descriptor table
-;          setup code.
-;          Based on code from Bran's kernel development tutorials.
-;          Rewritten for JamesM's kernel development tutorials.
+[GLOBAL _asm_gdt_flush]    ; Allows the C code to call _asm_gdt_flush().
 
-[GLOBAL gdt_flush]    ; Allows the C code to call gdt_flush().
-
-gdt_flush:
-    mov eax, [esp+4]  ; Get the pointer to the GDT, passed as a parameter.
+_asm_gdt_flush:
+    push ebp
+    mov ebp, esp
+    mov eax, [ebp+8]  ; Get the first argument.
     lgdt [eax]        ; Load the new GDT pointer
 
     mov ax, 0x10      ; 0x10 is the offset in the GDT to our data segment
@@ -18,6 +14,8 @@ gdt_flush:
     mov ss, ax
     jmp 0x08:.flush   ; 0x08 is the offset to our code segment: Far jump!
 .flush:
+    mov esp, ebp
+    pop ebp
     ret
 
 [GLOBAL idt_flush]    ; Allows the C code to call idt_flush().
