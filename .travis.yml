@@ -1,6 +1,6 @@
 language: c
 before_install:
-- sudo apt-get install -y nasm mkisofs
+- sudo apt-get install -y nasm mkisofs gcc-multilib
 script: make
 before_deploy:
 - git tag "$(cat VERSION)"

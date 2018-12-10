@@ -94,11 +94,11 @@ void kernel_main()
 	*/
 	a = kmalloc(4);
 	b = kmalloc(4);
-	c = kmalloc(4);
+	c = kmalloc(0x20000);
 	d = kmalloc(16);
 
 	printk("\n\nkmalloc() demonstating:\n");
 	printk("kernel heap starts at: %x\n", 0xCC0000);
-	printk("a kmalloc(4): %x\nb kmalloc(4): %x\nc kmalloc(4): %x\nd kmalloc(4): %x",a,b,c,d);
+	printk("a kmalloc(4): %x\nb kmalloc(4): %x\nc kmalloc(0x10000): %x\nd kmalloc(4): %x",a,b,c,d);
 
 }
