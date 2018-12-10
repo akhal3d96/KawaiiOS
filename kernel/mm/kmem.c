@@ -22,8 +22,7 @@ static void set_frame(uint32_t frame_addr)
 	frames[bucket] |= (1 << offset);
 }
 
-/*
-static void clear_frame(uint32_t frame_addr)
+void clear_frame(uint32_t frame_addr)
 {
 	uint32_t frame = frame_addr / FRAME_SIZE;
 	uint32_t bucket = frame >> BITS_WS;
@@ -31,7 +30,7 @@ static void clear_frame(uint32_t frame_addr)
 
 	frames[bucket] &= ~(1 << offset);
 }
-
+/*
 static uint32_t test_frame(uint32_t frame_addr)
 {
 	uint32_t frame = frame_addr / FRAME_SIZE;
@@ -69,7 +68,10 @@ void allocate_frame(struct page *p, int is_kernel, int is_writeable)
 	} else {
 		uint32_t index = first_frame();
 
-		/* There's no free memoey, kernel panic! */
+		/* 
+		* FIXME: Change this behavior.
+		* There's no free memoey, kernel panic! 
+		*/
 		if (index == (uint32_t) - 1) {
 			printk("No free memeory\n");
 			hlt();

@@ -17,7 +17,7 @@ void kernel_main()
 	*/
 
 	/* kmalloc() */
-	uint32_t * a, * b, *c, *d;
+	uint32_t * a, * b, * c;
 
 	char kawaii[] = {
 		0x20, 0x5f, 0x20, 0x20, 0x20, 0x5f, 0x5f, 0x20, 0x20, 0x20,
@@ -92,13 +92,15 @@ void kernel_main()
 	do_page_fault = *ptr;
 	(void)do_page_fault;
 	*/
-	a = kmalloc(4);
-	b = kmalloc(4);
-	c = kmalloc(0x20000);
-	d = kmalloc(16);
-
 	printk("\n\nkmalloc() demonstating:\n");
 	printk("kernel heap starts at: %x\n", 0xCC0000);
-	printk("a kmalloc(4): %x\nb kmalloc(4): %x\nc kmalloc(0x10000): %x\nd kmalloc(4): %x",a,b,c,d);
+
+	a = kmalloc(4);
+	b = kmalloc(4);
+	printk("a: %x\tb: %x\n",a,b);
+	kfree(a);
+	kfree(b);
+	c = kmalloc(8);
+	printk("c: %x\n",c);
 
 }

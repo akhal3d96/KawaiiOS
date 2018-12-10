@@ -16,4 +16,6 @@ uint32_t kmalloc_a(uint32_t size);
 uint32_t kmalloc_ap(uint32_t size, uint32_t * physical);
 
 void allocate_frame(struct page *p, int is_kernel, int is_writeable);
+void clear_frame(uint32_t frame_addr);
+
 #endif
