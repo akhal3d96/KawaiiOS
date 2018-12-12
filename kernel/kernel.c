@@ -16,9 +16,10 @@ void kernel_main()
 	uint32_t do_page_fault;
 	*/
 
-	/* kmalloc() */
+	/* 
+	kmalloc() 
 	uint32_t * a, * b, * c;
-
+	*/
 	char kawaii[] = {
 		0x20, 0x5f, 0x20, 0x20, 0x20, 0x5f, 0x5f, 0x20, 0x20, 0x20,
 		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -61,16 +62,13 @@ void kernel_main()
 	cls();
 
 	printk(kawaii);
-
-	printk("the educational operating system.\n");
-	printk("By Ahmed Khaled <nemoload@aol.com>\n");
+	printk("The educational operating system, by Ahmed Khaled <nemoload@aol.com>\n");
 	printk("Source code: https://github.com/nemoload/KawaiiOS\n\n");
-
+	
 	init_descriptor_tables();
 
 	printk("[*] Global Descriptor Table updated\n");
-	/* char *idt = "[*] Interrupt Descriptor Table crated\n"; */
-	/* printk(idt); */
+	printk("[*] Interrupt Descriptor Table crated\n");
 
 	keyboard_init();
 	printk("[*] PS/2 driver is ready\n");
@@ -79,7 +77,7 @@ void kernel_main()
 	initialise_paging();
 	__asm__ volatile ("sti");
 	printk("[*] Paging Initialized\n");
-
+	printk("[*] Kernel heap ");
 	/* PIC */
 	/* uint16_t freq = 44000; */
 	/* init_timer(freq); */
@@ -92,15 +90,17 @@ void kernel_main()
 	do_page_fault = *ptr;
 	(void)do_page_fault;
 	*/
+	/*
 	printk("\n\nkmalloc() demonstating:\n");
 	printk("kernel heap starts at: %x\n", 0xCC0000);
 
 	a = kmalloc(4);
 	b = kmalloc(4);
-	printk("a: %x\tb: %x\n",a,b);
+	*a = 0xBADDAD;
+	printk("a: %x\tb: %x\n",*a,b);
 	kfree(a);
 	kfree(b);
 	c = kmalloc(8);
 	printk("c: %x\n",c);
-
+	*/
 }

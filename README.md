@@ -1,33 +1,51 @@
 # KawaiiOS 
 [![Build Status](https://travis-ci.com/nemoload/KawaiiOS.svg?branch=master)](https://travis-ci.com/nemoload/KawaiiOS)
+
 ## What is KawaiiOS?
-KwaiiOS is a hobby A 32-bit operating system for educational purposes meant to be UNIX-like but with its own kernel. It's tested on an emulation of Intel Q35 chipset.
+KwaiiOS is a hobbyist 32-bit operating system. for educational purposes. It aims to to be a UNIX-like operating system but with its own kernel. It's tested on an emulation of Intel Q35 chipset.
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/nemoload/KawaiiOS/master/screenshots/screenshot1.png">
 </p>
 
-## Memory map
-* ### Physical memory
-    | 0x00000 	| 0x07C00  	| BIOS                   	|
-    |---------	|----------	|------------------------	|
-    | 0x07C00 	| 0x07E00  	| Bootloader             	|
-    | 0x07E00 	| 0x10000  	| UNUSED                 	|
-    | 0x10000 	| 0x23CB8  	| Kernel                 	|
-    | 0x23CB8 	| 0x100000 	| UNUSED + system reserved 	|
-
 ## How to compile annd run it?
 ### Requirments:
-1. A running GNU/Linux environment
-2. GCC
-3. GNU Make
-4. QEMU
+1. A GNU/Linux environment
+2. GCC (with cross-compiling)
+3. NASM
+4. GNU Make
+5. QEMU
+6. cdrtools
 
-### Compiling
-`$ make`
+### Installing:
+`$ sudo apt-get install nasm mkisofs gcc-multilib`
+### Compiling:
+`$ make  # Haven't expected that, have you?`
+### Running:
+`$ qemu-system-i386 -enable-kvm -d cpu_reset -boot d -cdrom kawaiios.iso -m 16`
 
-This will compile the bootloader and the kernel, then it'll link the kernel components and finally will genrate a floppy disk image out of both the botloader and the kernel.
-### Running
-`$ qemu-system-i386 -machine q35 -fda disk.img`
+You can omitt the `-enable-kvm` parameter if you don't have/don't want to. Also the memory size is, for now, hard coded into the source code so changing the memory size from **16** in `-m 16` to anything else migh break up some stuff.
+
+## Features:
+
+#### Supported Archetictures:
+- [x] Intel x86
+- [ ] ARMv7-A
+    
+
+Archticture-depndent features:
+- [ ] Multitasking
+- [ ] Multithreading
+
+#### Kernel Features:
+- [x] Monolitich design
+- [ ] Virtual File System
+
+#### Supported Devices:
+
+- [x] PS/2 Keyboard
+
+
+
 ## Note
 The code of KawaiiOS is far from ready there's a lot of things that should be fixed and changed and the work is still in progress.
