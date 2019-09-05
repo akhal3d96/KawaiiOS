@@ -20,11 +20,16 @@ void PANIC(struct registers *regs)
 prevent damage to your computer\n\
 If this the first time you've seen this Stop error screen, restart your computer\n\
 Technical information:";
-
+	printk("\nPANIC!\n");
 	__asm__ volatile ("movl    %%cr0,        %%eax":"=a" (cr0));
 	__asm__ volatile ("movl    %%cr2,        %%eax":"=a" (cr2));
 	__asm__ volatile ("movl    %%cr3,        %%eax":"=a" (cr3));
 
+	printk("\n CR0: %x     CR2: %x     CR3: %x              ",
+	       cr0, cr2, cr3);
+	printk("\n CS : %x     EIP: %x     EF : %x     ERR: %x",
+	       regs->cs, regs->eip, regs->eflags, regs->err_code);
+	hlt();
 	screen_colorize(BLACK);
 	printk(msg);
 

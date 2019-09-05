@@ -1,6 +1,6 @@
 #include <asm.h>
 #include <isr.h>
-#include <screen.h>
+#include <printk.h>
 
 void (*interrupt_handlers[256])(registers_t *);
 
@@ -15,7 +15,7 @@ void isr_handler(registers_t * regs)
 	if (interrupt_handlers[regs->int_no]) {
 		interrupt_handlers[regs->int_no] (regs);
 	} else {
-		print_string("Unhandled intruuption");
+		printk("Unhandled intruuption\n");
 	}
 }
 

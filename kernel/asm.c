@@ -24,3 +24,13 @@ __inline__ void hlt()
 {
 	__asm__ volatile ("cli; hlt");
 }
+
+__inline__ void cli()
+{
+	__asm__ volatile ("cli");
+}
+
+__inline__ void sti()
+{
+	__asm__ volatile ("sti");
+}

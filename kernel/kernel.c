@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <printk.h>
 #include <descriptor_tables.h>
 #include <timer.h>
 #include <drivers/keyboard/ps2.h>
@@ -7,19 +6,24 @@
 #include <screen.h>
 #include <mm/paging.h>
 #include <mm/kheap.h>
+#include <thread.h>
+#include <string.h>
+#include <scheduler.h>
+#include <printk.h>
+
+
+int fn1(void *arg);
+int fn2(void *arg);
+int fn3(void *arg);
+
 
 void kernel_main()
 {
-	/* Page Fault */
-	/* 
-	uint32_t *ptr;
-	uint32_t do_page_fault;
-	*/
 
-	/* 
-	kmalloc() 
-	uint32_t * a, * b, * c;
-	*/
+	uint32_t *stack1, *stack2, *stack3;
+	uint16_t freq;
+	/* uint8_t mask; */
+
 	char kawaii[] = {
 		0x20, 0x5f, 0x20, 0x20, 0x20, 0x5f, 0x5f, 0x20, 0x20, 0x20,
 		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -73,34 +77,73 @@ void kernel_main()
 	keyboard_init();
 	printk("[*] PS/2 driver is ready\n");
 
-	__asm__ volatile ("cli");
-	initialise_paging();
-	__asm__ volatile ("sti");
-	printk("[*] Paging Initialized\n");
-	printk("[*] Kernel heap ");
-	/* PIC */
-	/* uint16_t freq = 44000; */
-	/* init_timer(freq); */
-	/* uint8_t mask = 4; */
-	/* outb(0x60,0xED|mask); */
-	
-	/* Page Fault */
-	/*
-	ptr = (uint32_t *) 0x10000002;
-	do_page_fault = *ptr;
-	(void)do_page_fault;
-	*/
-	/*
-	printk("\n\nkmalloc() demonstating:\n");
-	printk("kernel heap starts at: %x\n", 0xCC0000);
 
-	a = kmalloc(4);
-	b = kmalloc(4);
-	*a = 0xBADDAD;
-	printk("a: %x\tb: %x\n",*a,b);
-	kfree(a);
-	kfree(b);
-	c = kmalloc(8);
-	printk("c: %x\n",c);
-	*/
+
+	cli();
+	initialise_paging();
+	sti();
+
+	printk("[*] Paging Initialized\n");
+	printk("[*] Kernel Heap Initialized\n");
+	
+	/* PIC */
+	freq = 44000;
+	init_timer(freq);
+	outb(0x60,0xED|4);
+	printk("[*] PIT Initialized\n");
+	
+	init_scheduler(init_threading());
+	
+	printk("[*] Kernel Threads Initialized \n");
+
+	stack1 = (uint32_t*) kmalloc(0x400) +0x3F0;
+	stack2 = (uint32_t*) kmalloc(0x400) + 0x3F0;
+	stack3 = (uint32_t*) kmalloc(0x400) + 0x3F0;
+
+	memset(stack1, 0, 0x400);
+	memset(stack2, 0, 0x400);
+	memset(stack3, 0, 0x400);
+
+	create_thread(&fn1, (void*)0x567, stack1);	
+	create_thread(&fn2, (void*)0x567, stack2);
+	create_thread(&fn3, (void*)0x567, stack3);
+
+
+}
+
+
+int fn1(void *arg)
+{
+	int i;
+	for(i=0;i<10;i++) 
+	{
+		print_char_at(' ',x,y,RED,RED);
+		i=0;
+
+	}
+  return 0xBAD;
+}
+
+int fn2(void *arg)
+{
+	int i;
+	for(i=0;i<10;i++) 
+	{
+		print_char_at(' ',x,y,GREEN,GREEN);
+		i = 0;
+
+	}
+  return 0xDAD;
+}
+
+int fn3(void *arg)
+{
+	int i;
+	for(i=0;i<10;i++) 
+	{
+		print_char_at(' ',x,y,BLUE,BLUE);
+		i = 0;
+
+	}
+  return 0xDAD;
 }

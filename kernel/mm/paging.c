@@ -15,7 +15,7 @@ uint32_t nframes;
 
 void page_fault(registers_t * regs)
 {
-	printk("page_fault(): %d\n", regs->eip);
+	printk("\npage_fault(): %x\n", regs->eip);
 	PANIC(regs);
 }
 

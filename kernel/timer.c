@@ -1,18 +1,12 @@
-/* timer.c -- Initialises the PIT, and handles clock updates.*/
-/*            Written for JamesM's kernel development tutorials.*/
-
 #include <timer.h>
 #include <isr.h>
-#include <screen.h>
-/* #include <stdbool.h>*/
+#include <scheduler.h>
+
 uint32_t tick = 0;
 
 static void timer_callback( /*registers_t regs */ )
 {
-	tick++;
-	/* print_string("Tick: "); */
-	/* print_char_at(tick+48,x,y,0); */
-	/* print_char_at('\n',x,y,0); */
+	schedule();
 }
 
 void init_timer(uint32_t frequency)
