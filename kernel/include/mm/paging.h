@@ -23,7 +23,7 @@ struct page_directory {
 	struct page_table *tables[1024];
 };
 
-void initialise_paging();
+void initialise_paging(uint32_t memory_size);
 
 void switch_page_directory(struct page_directory *new_pd);
 

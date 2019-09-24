@@ -1,8 +1,6 @@
-/* common.h -- Defines typedefs and some global functions.*/
-/*             From JamesM's kernel development tutorials.*/
+#ifndef ASM_H
+#define ASM_H 
 
-/* #ifndef COMMON_H*/
-/* #define COMMON_H*/
 #include <stdint.h>
 
 void outb(uint16_t port, uint8_t value);
@@ -13,4 +11,4 @@ void hlt();
 void cli();
 void sti();
 
-/* #endif // COMMON_H*/
+#endif

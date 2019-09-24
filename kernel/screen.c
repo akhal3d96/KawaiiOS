@@ -3,17 +3,17 @@
 #include <asm.h>
 #include <screen.h>
 
-uint16_t x = 0;
-uint16_t y = 0;
+uint16_t VGA_X_POS = 0;
+uint16_t VGA_Y_POS = 0;
 
-uint16_t *vidmem = (uint16_t *) VIDEO_ADDRESS;
+uint16_t * vidmem = (uint16_t *) VIDEO_ADDRESS;
 
-void move_cursor(uint16_t cursor_x, uint16_t cursor_y)
+static void move_cursor(uint16_t cursor_x, uint16_t cursor_y)
 {
 	uint16_t cursorLocation;
 
-	x = cursor_x;
-	y = cursor_y;
+	VGA_X_POS = cursor_x;
+	VGA_Y_POS = cursor_y;
 
 	cursorLocation = cursor_y * 80 + cursor_x;
 
@@ -23,20 +23,21 @@ void move_cursor(uint16_t cursor_x, uint16_t cursor_y)
 	outb(0x3D5, cursorLocation);	/* Send the low cursor byte. */
 }
 
- /*FIXME*/ uint16_t get_cursor()
+ /*FIXME*/
+__inline__ static uint16_t get_cursor()
 {
 	/* outb(REG_SCREEN_CTRL , 14); */
 	/* uint16_t  offset = port_byte_in(REG_SCREEN_DATA) << 8; */
 	/* outb(REG_SCREEN_CTRL , 15); */
 	/* offset  |=  port_byte_in(REG_SCREEN_DATA ); */
 
-	return x * y;
+	return VGA_X_POS * VGA_Y_POS;
 
 }
 
 void cls()
 {
-	screen_colorize((uint8_t) BLACK);
+	screen_colorize((uint8_t) VGA_COLOR_BLACK);
 }
 
 void screen_colorize(uint8_t back_color)
@@ -50,7 +51,7 @@ void screen_colorize(uint8_t back_color)
 
 	uint16_t i;
 
-	attributeByte = (back_color << 4) | (15 & WHITE);
+	attributeByte = (back_color << 4) | (15 & VGA_COLOR_WHITE);
 	blank = 0x20 /* space */  | (attributeByte << 8);
 
 	for (i = 0; i < 80 * 25; i++) {
@@ -69,11 +70,11 @@ static bool scroll()
 	uint8_t attributeByte;
 	uint16_t blank;
 
-	attributeByte = (BLACK << 4) | (15 & WHITE_ON_BLACK);
+	attributeByte = (VGA_COLOR_BLACK << 4) | (15 & WHITE_ON_BLACK);
 	blank = 0x20 /* space */  | (attributeByte << 8);
 
 	/* Row 25 is the end, this means we need to scroll up */
-	if (y >= 24) {
+	if (VGA_Y_POS >= 24) {
 		/* Move the current text chunk that makes up the screen */
 		/* back in the buffer by a line */
 		uint16_t i;
@@ -87,7 +88,7 @@ static bool scroll()
 			vidmem[i] = blank;
 		}
 		/* The cursor should now be on the last line. */
-		y = 23;
+		VGA_Y_POS = 23;
 		return true;
 	}
 
@@ -96,7 +97,7 @@ static bool scroll()
 
 void print_char(char c)
 {
-	print_char_at(c, x, y, (uint8_t) BLACK, (uint8_t) WHITE);
+	print_char_at(c, VGA_X_POS, VGA_Y_POS, (uint8_t) VGA_COLOR_BLACK, (uint8_t) VGA_COLOR_WHITE);
 }
 
 void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y,
@@ -104,7 +105,7 @@ void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y,
 {
 	/* The attribute byte is made up of two nibbles - the lower being the */
 	/* foreground colour, and the upper the background colour. */
-	uint8_t attributeByte = (back_color << 4) | (fore_color & WHITE);
+	uint8_t attributeByte = (back_color << 4) | (fore_color & VGA_COLOR_WHITE);
 
 	/* The attribute byte is the top 8 bits of the word we have to send to the */
 	/* VGA board. */
@@ -120,9 +121,9 @@ void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y,
 	   location = cursor_y * 80 + cursor_x;
 	   } else {
 	 */
-	cursor_y = y;
-	cursor_x = x;
-	location = y * 80 + x;
+	cursor_y = VGA_Y_POS;
+	cursor_x = VGA_X_POS;
+	location = VGA_Y_POS * 80 + VGA_X_POS;
 	/*
 	   }
 	 */
@@ -165,7 +166,7 @@ void print_char_at(char c, uint16_t cursor_x, uint16_t cursor_y,
 
 	/* Scroll the screen if needed. */
 	if (scroll()) {
-		cursor_y = y;
+		cursor_y = VGA_Y_POS;
 
 	}
 
@@ -178,7 +179,7 @@ void print_string(char *str)
 {
 	uint16_t i = 0;
 	while (str[i]) {
-		print_char_at(str[i], x, y, (uint8_t) BLACK, (uint8_t) WHITE);
+		print_char_at(str[i], VGA_X_POS, VGA_Y_POS, (uint8_t) VGA_COLOR_BLACK, (uint8_t) VGA_COLOR_WHITE);
 		i++;
 	}
 }
@@ -187,7 +188,7 @@ void print_string_blue(char *str)
 {
 	uint16_t i = 0;
 	while (str[i]) {
-		print_char_at(str[i], x, y, (uint8_t) BLUE, (uint8_t) WHITE);
+		print_char_at(str[i], VGA_X_POS, VGA_Y_POS, (uint8_t) VGA_COLOR_BLUE, (uint8_t) VGA_COLOR_WHITE);
 		i++;
 	}
 }

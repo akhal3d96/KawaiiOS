@@ -10,7 +10,7 @@ void keyboard_init()
 	register_interrupt_handler(IRQ1, &keyboard_handler);
 }
 
-void keyboard_handler( /*registers_t regs */ )
+void keyboard_handler(registers_t regs)
 {
 	int com;
 

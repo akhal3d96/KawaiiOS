@@ -1,27 +1,33 @@
 ENTRY(start)
 SECTIONS
 {
-  .text 0x100000 :
+    . = 1M;
+  .text BLOCK(4K): ALIGN(4K)
   {
-      code = .; _code = .; __code = .;
+      code = .;
+      *(.mboot)
       *(.text)
-      . = ALIGN(4096);
   }
 
-  .data :
+   .rodata BLOCK(4K): ALIGN(4K)
   {
-      data = .; _data = .; __data = .;
+      rodata = .;
+      *(.rodata)
+  }
+
+  .data BLOCK(4K): ALIGN(4K)
+  {
+      data = .;
       *(.data)
       *(.rodata)
-      . = ALIGN(4096);
   }
 
-  .bss :
+  .bss BLOCK(4K): ALIGN(4K)
   {
-      bss = .; _bss = .; __bss = .;
+      bss = .;
+      *(COMMON)
       *(.bss)
-      . = ALIGN(4096);
   }
 
-  end = .; _end = .; __end = .;
+  end = .;
 }

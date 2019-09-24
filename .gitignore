@@ -1,4 +1,7 @@
 .vscode/
+garbage/
+bochs.log
+.gdb_history
 *.o
 *.bin
 *.img

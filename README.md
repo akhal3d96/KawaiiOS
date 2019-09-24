@@ -8,29 +8,41 @@ KwaiiOS is a hobbyist 32-bit, uniprocessor, operating system made for educationa
 <img src="https://raw.githubusercontent.com/nemoload/KawaiiOS/master/screenshots/screenshot1.png">
 </p>
 
+<p align="center">
+<img src="https://media.giphy.com/media/XDj7xyYR4P1D7PeSiL/giphy.gif">
+</p>
+
 ## Known Issues
 * Multiboot headers aren't being handled yet so you have to load the kernel elf file directly to 
 qemu in order to load it.
 
 * ¯\\\_(° ͜ʖ °)_/¯
 
-## How to compile annd run it?
+## Bulding
 ### Requirments:
+
 1. A GNU/Linux environment
 2. GCC (with cross-compiling)
 3. NASM
 4. GNU Make
-5. QEMU. 
-6. cdrtools
+5. GRUB
+6. xorriso
 
-### Installing:
+#### Install requirments:
 `$ sudo apt-get install nasm mkisofs gcc-multilib`
-### Compiling:
+#### Compiling:
 `$ make  # Haven't expected that, have you?`
-### Running:
+
+## Running:
+You can run it using **qemu** or **bochs**
+
 `$ qemu-system-i386 -enable-kvm -d cpu_reset -boot d -kernel kernel/kernel.elf -m 16`
 
-You can omitt the `-enable-kvm` parameter if you don't have KVM  or don't want to. Also the memory size is, for now, hard coded into the source code so changing the memory size from **16** in `-m 16` to anything else migh break up some stuff.
+_or_
+
+`$ bochs -f bochsrc -q`
+
+Note about **qemu**: You can omitt the `-enable-kvm` parameter if you don't have KVM  or don't want to. Also the memory size is, for now, hard coded into the source code so changing the memory size from **16** in `-m 16` to anything else migh break up some stuff.
 
 ## Features:
 

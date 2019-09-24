@@ -1,41 +1,41 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include<stdint.h>
+#include <stdint.h>
 
-#define  VIDEO_ADDRESS 0xb8000
-#define  MAX_ROWS  25
-#define  MAX_COLS  80
-#define  WHITE_ON_BLACK 0x0f
+#define  VIDEO_ADDRESS 0xB8000
+#define  VGA_HEIGHT  25
+#define  VGA_WIDTH   80
+#define  WHITE_ON_BLACK 0x0F
 
 /*  Screen  device I/O ports*/
 #define  REG_SCREEN_CTRL 0x3D4
 #define  REG_SCREEN_DATA 0x3D5
 
-enum COLOR {
-	BLACK,
-	BLUE,
-	GREEN,
-	CYAN,
-	RED,
-	PURPLE,
-	BROWN,
-	GRAY,
-	DARK_GRAY,
-	LIGHT_BLUE,
-	LIGHT_GREEN,
-	LIGHT_CYAN,
-	LIGHT_RED,
-	LIGHT_PURPLE,
-	YELLOW,
-	WHITE
+extern uint16_t VGA_X_POS;
+extern uint16_t VGA_Y_POS;
+
+enum VGA_COLOR {
+	VGA_COLOR_BLACK,
+	VGA_COLOR_BLUE,
+	VGA_COLOR_GREEN,
+	VGA_COLOR_CYAN,
+	VGA_COLOR_RED,
+	VGA_COLOR_PURPLE,
+	VGA_COLOR_BROWN,
+	VGA_COLOR_GRAY,
+	VGA_COLOR_DARK_GRAY,
+	VGA_COLOR_LIGHT_BLUE,
+	VGA_COLOR_LIGHT_GREEN,
+	VGA_COLOR_LIGHT_CYAN,
+	VGA_COLOR_LIGHT_RED,
+	VGA_COLOR_LIGHT_PURPLE,
+	VGA_COLOR_YELLOW,
+	VGA_COLOR_WHITE
 };
 
-extern uint16_t x;
-extern uint16_t y;
 
 void print_string(char *str);
-void print_string_blue(char *str);
 void print_char(char c);
 void cls();
 void screen_colorize(uint8_t back_color);

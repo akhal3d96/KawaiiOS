@@ -1,3 +1,4 @@
+#include <multiboot.h>
 #include <stdint.h>
 #include <descriptor_tables.h>
 #include <timer.h>
@@ -11,19 +12,12 @@
 #include <scheduler.h>
 #include <printk.h>
 
-
-int fn1(void *arg);
-int fn2(void *arg);
-int fn3(void *arg);
+#include <tests/multithreading_test.h>
+#include <tests/heap_test.h>
 
 
-void kernel_main()
+void kernel_main(struct multiboot * mboot)
 {
-
-	uint32_t *stack1, *stack2, *stack3;
-	uint16_t freq;
-	/* uint8_t mask; */
-
 	char kawaii[] = {
 		0x20, 0x5f, 0x20, 0x20, 0x20, 0x5f, 0x5f, 0x20, 0x20, 0x20,
 		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -64,11 +58,11 @@ void kernel_main()
 	};
 
 	cls();
-
+	
 	printk(kawaii);
+
 	printk("The educational operating system, by Ahmed Khaled <nemoload@aol.com>\n");
 	printk("Source code: https://github.com/nemoload/KawaiiOS\n\n");
-	
 	init_descriptor_tables();
 
 	printk("[*] Global Descriptor Table updated\n");
@@ -77,73 +71,22 @@ void kernel_main()
 	keyboard_init();
 	printk("[*] PS/2 driver is ready\n");
 
-
-
+	
 	cli();
-	initialise_paging();
+	initialise_paging(mboot->mem_upper /*in KiBs */ * 1024);
 	sti();
 
 	printk("[*] Paging Initialized\n");
 	printk("[*] Kernel Heap Initialized\n");
 	
 	/* PIC */
-	freq = 44000;
-	init_timer(freq);
-	outb(0x60,0xED|4);
+	init_timer(44000);
+	/*outb(0x60,0xED|4);*/
 	printk("[*] PIT Initialized\n");
-	
+		
 	init_scheduler(init_threading());
 	
 	printk("[*] Kernel Threads Initialized \n");
 
-	stack1 = (uint32_t*) kmalloc(0x400) +0x3F0;
-	stack2 = (uint32_t*) kmalloc(0x400) + 0x3F0;
-	stack3 = (uint32_t*) kmalloc(0x400) + 0x3F0;
-
-	memset(stack1, 0, 0x400);
-	memset(stack2, 0, 0x400);
-	memset(stack3, 0, 0x400);
-
-	create_thread(&fn1, (void*)0x567, stack1);	
-	create_thread(&fn2, (void*)0x567, stack2);
-	create_thread(&fn3, (void*)0x567, stack3);
-
-
-}
-
-
-int fn1(void *arg)
-{
-	int i;
-	for(i=0;i<10;i++) 
-	{
-		print_char_at(' ',x,y,RED,RED);
-		i=0;
-
-	}
-  return 0xBAD;
-}
-
-int fn2(void *arg)
-{
-	int i;
-	for(i=0;i<10;i++) 
-	{
-		print_char_at(' ',x,y,GREEN,GREEN);
-		i = 0;
-
-	}
-  return 0xDAD;
-}
-
-int fn3(void *arg)
-{
-	int i;
-	for(i=0;i<10;i++) 
-	{
-		print_char_at(' ',x,y,BLUE,BLUE);
-		i = 0;
-
-	}
-  return 0xDAD;
+	multithreading_test();
 }

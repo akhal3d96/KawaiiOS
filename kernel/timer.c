@@ -4,7 +4,7 @@
 
 uint32_t tick = 0;
 
-static void timer_callback( /*registers_t regs */ )
+static void timer_callback( registers_t * regs  )
 {
 	schedule();
 }
@@ -35,5 +35,4 @@ void init_timer(uint32_t frequency)
 	outb(0x40, l);
 	outb(0x40, h);
 
-	/* print_string("[*] Timer initiated\n"); */
 }

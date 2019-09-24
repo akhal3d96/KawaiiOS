@@ -2,7 +2,6 @@
 #include<mm/kmem.h>
 #include<mm/paging.h>
 #include<mm/memory.h>
-#include<utilis/bst.h>
 #include<stdint.h>
 #include<string.h>
 
@@ -10,7 +9,7 @@ uint32_t heap_max = KHEAP_START;
 
 struct header *heap_first = 0;
 
-void *kmalloc(uint32_t size)
+void * kmalloc(uint32_t size)
 {
 	uint32_t chunk_start;
 	struct header *curr_header, *prev_header;
@@ -58,7 +57,7 @@ void *kmalloc(uint32_t size)
 	curr_header->prev = prev_header;
 
 	prev_header->next = curr_header;
-
+	
 	return (void *)(chunk_start + sizeof(struct header));
 }
 

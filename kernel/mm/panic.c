@@ -30,7 +30,7 @@ Technical information:";
 	printk("\n CS : %x     EIP: %x     EF : %x     ERR: %x",
 	       regs->cs, regs->eip, regs->eflags, regs->err_code);
 	hlt();
-	screen_colorize(BLACK);
+	screen_colorize(VGA_COLOR_BLACK);
 	printk(msg);
 
 	printk("\n CS : %x     EIP: %x     EF : %x     ERR: %x",
@@ -58,7 +58,7 @@ Technical information:";
 	printk("\n ERR!: %x", regs->err_code);
 
 	/* FIXME: Refactor this piece of code into a sperate function */
-	attributeByte = (BLUE << 4) | (15 & WHITE);
+	attributeByte = (VGA_COLOR_BLUE << 4) | (15 & VGA_COLOR_WHITE);
 	character = 0 | (attributeByte << 8);
 
 	for (i = 0; i < 80 * 25; i++) {

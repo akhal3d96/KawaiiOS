@@ -9,10 +9,8 @@
 #define KHEAP_START 		0xCC0000
 #define KHEAP_INDEX_SIZE	0x1000 
 
-/*#define HEAP_INDEX_SIZE     0x20000
-#define HEAP_MIN_SIZE       0x70000*/
-
-struct header {
+struct header
+{
 	uint32_t size;
 	bool is_hole;
 	struct header *next, *prev;

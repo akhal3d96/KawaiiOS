@@ -19,10 +19,10 @@ void page_fault(registers_t * regs)
 	PANIC(regs);
 }
 
-void initialise_paging()
+void initialise_paging(uint32_t memory_size)
 {
 	uint32_t frame_addr = 0;
-	nframes = MEMORY_SIZE / FRAME_SIZE;
+	nframes = memory_size / FRAME_SIZE;
 
 	/* 
 	 * Set frames to be an array of integers of the size of the
@@ -89,7 +89,7 @@ void switch_page_directory(struct page_directory *pd)
 
 }
 
-struct page *create_page(uint32_t address, struct page_directory *pd)
+struct page * create_page(uint32_t address, struct page_directory *pd)
 {
 
 	uint32_t tmp;
@@ -110,7 +110,7 @@ struct page *create_page(uint32_t address, struct page_directory *pd)
 	return &pd->tables[table_index]->pages[address % 1024];
 }
 
-struct page *get_page(uint32_t address, struct page_directory *pd)
+struct page * get_page(uint32_t address, struct page_directory *pd)
 {
 	uint32_t table_index;
 	address /= 0x1000;
