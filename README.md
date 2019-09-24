@@ -13,8 +13,7 @@ KwaiiOS is a hobbyist 32-bit, uniprocessor, operating system made for educationa
 </p>
 
 ## Known Issues
-* Multiboot headers aren't being handled yet so you have to load the kernel elf file directly to 
-qemu in order to load it.
+* ~~Multiboot headers aren't being handled yet so you have to load the kernel elf file directly to qemu in order to load it.~~
 
 * ¯\\\_(° ͜ʖ °)_/¯
 
